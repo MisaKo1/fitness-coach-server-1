@@ -36,7 +36,7 @@ export const createUser = async (req: Request, res: Response) => {
     if (!email || !username || !password)
       return res.status(400).send({ msg: "Missing details" });
     const user = await User.findOne({ where: { email: email } });
-    if (user) return res.status(400).send({ msg: "User already expists!" });
+    if (user) return res.status(400).send({ msg: "User already exists!" });
     const salt = await genSalt(10);
     const passwordHash = await hash(password, salt);
     const createdUser = await User.create({
