@@ -17,10 +17,14 @@ let db = {
   Sequelize,
   sequelize,
   users: require("./user")(sequelize, Sequelize),
-  accountRoles: require("./accountrole")(sequelize, Sequelize),
+  accountRole: require("./accountrole")(sequelize, Sequelize),
   userAccountRoles: require("./useraccountroles")(sequelize, Sequelize),
 };
 
+db.users.belongsToMany(db.accountRole, { through: db.userAccountRoles, as: "userRole"});
+db.accountRole.belongsToMany(db.users, { through: db.userAccountRoles, as: "user"});
+
+/*
 db.userAccountRoles.belongsTo(db.users, {
   foreignKey: "userid", 
   onDelete: "cascade",
@@ -29,7 +33,7 @@ db.userAccountRoles.belongsTo(db.users, {
 db.userAccountRoles.belongsTo(db.accountRoles, {
   foreignKey: "accountroleid", 
   onDelete: "cascade",
-});
+});*/
 
 
 export default db;
